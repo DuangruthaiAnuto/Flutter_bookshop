@@ -20,9 +20,15 @@ class BookItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(15),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  BookDetail(bookId, title, thumbnailUrl, price)));
+          // Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (context) =>
+          //         BookDetail(bookId, title, thumbnailUrl, price)));
+          Navigator.of(context).pushNamed('/book-detail', arguments: {
+            "bookId": bookId,
+            "title": title,
+            "thumbnailUrl": thumbnailUrl,
+            "price": price,
+          });
         },
         child: GridTile(
           child: Image.network(thumbnailUrl, fit: BoxFit.cover),
