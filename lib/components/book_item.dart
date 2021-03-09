@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bookshop/screens/book_detail.dart';
+import 'package:provider/provider.dart';
+import '../providers/cart_provider.dart';
 
 class BookItem extends StatelessWidget {
   final int bookId;
@@ -16,6 +17,7 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: GestureDetector(
@@ -40,8 +42,10 @@ class BookItem extends StatelessWidget {
             ),
             trailing: IconButton(
               icon: Icon(Icons.shopping_cart),
-              onPressed: () {},
-              color: Colors.green,
+              onPressed: () {
+                cart.addItem(bookId, title, price);
+              },
+              color: Colors.pink,
             ),
           ),
         ),
