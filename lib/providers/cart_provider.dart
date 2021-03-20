@@ -12,19 +12,32 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
-  void addItem(int bookId, String title, int price) {
+  void addItem(int bookId, String title, int price, int qty) {
     if (_items.containsKey(bookId)) {
       _items.update(
           bookId,
           (inCartItem) => CartItem(
                 inCartItem.bookId,
                 inCartItem.title,
-                inCartItem.qty + 1,
+                qty,
                 inCartItem.price,
               ));
     } else {
-      _items.putIfAbsent(bookId, () => CartItem(bookId, title, 1, price));
+      _items.putIfAbsent(bookId, () => CartItem(bookId, title, qty, price));
     }
+    notifyListeners();
+  }
+
+  int get totalAmount {
+    int total = 0;
+    _items.forEach((key, item) {
+      total = total + (item.price * item.qty);
+    });
+    return total;
+  }
+
+  void removeItem(int bookId) {
+    _items.remove(bookId);
     notifyListeners();
   }
 }
