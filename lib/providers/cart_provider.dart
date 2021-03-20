@@ -1,3 +1,5 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bookshop/models/cart.dart';
 
@@ -39,5 +41,26 @@ class Cart with ChangeNotifier {
   void removeItem(int bookId) {
     _items.remove(bookId);
     notifyListeners();
+  }
+
+  void addOrder(name, address) {
+    const url = 'http://10.0.2.2:3000/api/v1/order';
+    Map<String, String> headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-type": "application/json"
+    };
+    http
+        .post(
+      url,
+      headers: headers,
+      body: json.encode({
+        'name': name,
+        'address': address,
+        'total': totalAmount,
+      }),
+    )
+        .then((response) {
+      print(response.statusCode);
+    });
   }
 }
